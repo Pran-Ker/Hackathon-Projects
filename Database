@@ -1,0 +1,53 @@
+import datetime
+import sqlite3
+
+conn = sqlite3.connect('complaint.db')
+c = conn.cursor()
+
+
+class Customer():
+
+    def __intit__(self, Complaint, name, address):
+        self.Complaint = Complaint
+        self.name = name
+        self.address = address
+
+    def inputing(self):
+        
+        name = input("Enter your name:")
+        Complaint = input("Enter your complaint:")
+        address = input("Enter your address:")
+        self.name=name
+        self.Complaint=Complaint
+        self.address = address
+
+'''c.execute("""CREATE TABLE complaint (
+            complaint text, 
+            name text
+            address text)""")'''
+
+
+def enter(cus):
+    cus=Customer()
+    cus.inputing()
+    c.execute(
+        f"INSERT INTO  complaint VALUES ('{cus.Complaint}', '{cus.name}','{cus.address}')")
+    conn.commit()
+
+
+def delete_this(ch, del_name):
+    c.execute(f"DELETE FROM complaint WHERE name='{del_name}'")
+
+
+def view(view_name):
+    c.execute(f"SELECT * FROM complaint WHERE {view_name}")
+
+
+###________________________________________________________________________________________________________________###
+
+# MAIN
+
+
+
+print(c.fetchall())
+conn.commit()
